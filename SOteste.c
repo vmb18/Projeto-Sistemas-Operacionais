@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <string.h>
 #define TAM 20
 
 
@@ -41,7 +42,7 @@ void criaHeap (int *epi, int i, int f){
 }
 
 
-int heapsort (int *epi, int ini, int fim){ //funçao para a ordenaçao dos valores
+void heapsort (int *epi, int ini, int fim){ //funçao para a ordenaçao dos valores
 	int i, aux;
 
 	for(i = (fim-1)/2; i >= ini-1; i--){
@@ -88,23 +89,34 @@ int main (){
 	scanf("%d", &T);
 
 	flush_in(); //limpar buffer
+        /*
+         * [Andre] Na próxima vez, em sistemas Linux tente usar a função a seguir:
+         *
+         * __fpurge(stdin);
+         */
 
 	printf("Nome do arquivo de entrada : ");
 	char ne[TAM];
-	gets(ne);
+	fgets(ne, TAM-1, stdin);
+        
+        /*[Andre] Adicionei a linha a seguir para eliminar o '\n' que ficava na entrada.*/
+        ne[strlen(ne)-1]='\0';
 
 	printf("Nome do arquivo de saída : ");
 	char ns[TAM];
-	gets(ns);
-	
+	fgets(ns, TAM-1, stdin);
+        
+        /*[Andre] Adicionei a linha a seguir para eliminar o '\n' que ficava na entrada.*/
+        ns[strlen(ns)-1]='\0';
 
 	v = (int *)malloc(N * sizeof(int));	
-
 
 	//abre o arquivo de entrada, le os valores e salva em um vetor
 	FILE *entrada = fopen(ne, "r");
 	if(entrada == NULL)
 		printf("Erro ao abrir o arquivo\n");
+
+
 	for(p = 0; p < N; p++){
 		fscanf(entrada, "%d", &i);
 		v[p] = i;
